@@ -4,20 +4,10 @@ public class ATM {
 
     private String accountNumber;
 
-    public ATM(String accountNumber){
-        this.accountNumber = accountNumber;
+    public ATM(){
     }
 
-    public void getBalance(){
-        System.out.println("Your balance is: ");
+    public ATMConnection createATMConnection(String accountNumber) {
+        return new ATMConnection(accountNumber);
     }
-
-    public void deposit(){
-        System.out.println("Deposit: ");
-    }
-
-    public void withdraw(){
-        System.out.println("Withdraw: ");
-    }
-
 }
