@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
+Class-Path: /Users/otto/Code/java/ds2/out/production/ds2
 Main-Class: ds2.ATM
-

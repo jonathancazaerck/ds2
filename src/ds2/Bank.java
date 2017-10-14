@@ -14,6 +14,8 @@ public class Bank extends UnicastRemoteObject implements Operations {
     public Bank() throws RemoteException {
         super();
         bankAccounts = new HashMap<String, BankAccount>();
+        newBankAccount("BE1", 100);
+        newBankAccount("BE2", 50);
     }
 
     public static void main(String[] args) {
@@ -50,14 +52,14 @@ public class Bank extends UnicastRemoteObject implements Operations {
 
     @Override
     public void deposit(String AccountNumber, double amount) throws RemoteException {
-        double newBalance = getBalance(AccountNumber) - amount;
-        setBalance(AccountNumber,amount);
+        double newBalance = getBalance(AccountNumber) + amount;
+        setBalance(AccountNumber, newBalance);
     }
 
     @Override
     public void withdraw(String AccountNumber, double amount) throws RemoteException {
-        double newBalance = getBalance(AccountNumber) + amount;
-        setBalance(AccountNumber,amount);
+        double newBalance = getBalance(AccountNumber) - amount;
+        setBalance(AccountNumber, newBalance);
     }
 
     private BankAccount getBankAccount(String AccountNumber) throws RemoteException {
