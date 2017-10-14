@@ -7,41 +7,41 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
-public class Bank implements Operations {
+public class Bank extends UnicastRemoteObject implements Operations {
 
-    HashMap<String,Bankaccount> bankAccounts;
+    HashMap<String, BankAccount> bankAccounts;
 
-    public Bank(){
-        bankAccounts = new HashMap<String,Bankaccount>();
+    public Bank() throws RemoteException {
+        super();
+        bankAccounts = new HashMap<String, BankAccount>();
     }
 
-    public void start() {
+    public static void main(String[] args) {
         try {
-            Operations stub = (Operations) UnicastRemoteObject.exportObject(this, 0);
-            Registry registry = LocateRegistry.getRegistry();
-            registry.bind("operations", stub);
-
+            Registry vRegistry = LocateRegistry.getRegistry();
+            vRegistry.bind(Operations.class.getName(), new Bank());
             System.out.println("Bank ready");
-        } catch (AlreadyBoundException e) {
-            e.printStackTrace();
         } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
             e.printStackTrace();
         }
     }
+
     @Override
-    public void newBankAccount(String accountnumber, double balance) throws RemoteException{
-        bankAccounts.put(accountnumber, new Bankaccount(balance));
+    public void newBankAccount(String accountnumber, double balance) throws RemoteException {
+        bankAccounts.put(accountnumber, new BankAccount(balance));
     }
 
     @Override
     public double getBalance(String AccountNumber) throws RemoteException {
-        Bankaccount b1 = getBankAccount(AccountNumber);
+        BankAccount b1 = getBankAccount(AccountNumber);
         return b1.getBalance();
     }
 
-    private void setBalance(String AccountNumber,double newBalance) throws RemoteException {
+    private void setBalance(String AccountNumber, double newBalance) throws RemoteException {
         try {
-            Bankaccount b1 = getBankAccount(AccountNumber);
+            BankAccount b1 = getBankAccount(AccountNumber);
             b1.setBalance(newBalance);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class Bank implements Operations {
         setBalance(AccountNumber,amount);
     }
 
-    private Bankaccount getBankAccount(String AccountNumber) throws RemoteException {
+    private BankAccount getBankAccount(String AccountNumber) throws RemoteException {
         if(bankAccounts.containsKey(AccountNumber))
             return bankAccounts.get(AccountNumber);
         else {

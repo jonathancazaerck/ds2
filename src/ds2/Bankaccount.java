@@ -1,12 +1,12 @@
 package ds2;
 
-public class Bankaccount {
+public class BankAccount {
 
     private double balance;
 
 
 
-    public Bankaccount(double balance){
+    public BankAccount(double balance){
         this.balance = balance;
     }
 
